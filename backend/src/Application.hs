@@ -6,6 +6,7 @@
 module Application where
 
 ------------------------------------------------------------------------------
+import Api.Core
 import Control.Lens
 import Snap.Snaplet
 import Snap.Snaplet.Auth
