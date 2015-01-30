@@ -13,5 +13,5 @@ makeLenses ''Api
 
 apiInit :: SnapletInit b Api
 apiInit = makeSnaplet "api" "Core Api" Nothing $ do
-  u <- nestSnaplet "users" userService $ userServiceInit
+  u <- nestSnaplet "users" userService userServiceInit
   return $ Api u
