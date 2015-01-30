@@ -16,6 +16,7 @@ import Snap.Snaplet.Session
 data App = App
     { _sess :: Snaplet SessionManager
     , _auth :: Snaplet (AuthManager App)
+    , _api :: Snaplet Api
     }
 
 makeLenses ''App
