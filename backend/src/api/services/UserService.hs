@@ -4,8 +4,10 @@
 
 module Api.Services.UserService where
 
+import Api.Types
 import Control.Lens.TH
 import Control.Monad.State.Class
+import Data.Aeson
 import Data.ByteString.Char8 as B
 import Data.Maybe
 import Snap.Snaplet
@@ -24,6 +26,10 @@ createUser = do
   deviceToken <- (getRequest >>= getDeviceToken)
   newUser <- execute "INSERT INTO users (device_token) VALUES (?)" (Only deviceToken)
   modifyResponse $ setResponseStatus 201 "Created"
+  writeLBS . encode $ (deviceToken >>= userFromDeviceToken)
+
+userFromDeviceToken :: B.ByteString -> Maybe User
+userFromDeviceToken dt = Just $ User 0 (B.unpack dt)
 
 getDeviceToken :: (MonadSnap m) => Request -> m (Maybe ByteString)
 getDeviceToken rq = return $ getHeader "device-token" rq
