@@ -18,7 +18,3 @@ instance FromRow User where
 
 instance ToJSON User where
   toJSON (User id deviceToken) = object [ "id" .= id, "device_token" .= deviceToken ]
-
-instance ToJSON (Maybe User) where
-  toJSON (Just u) = object [ "id" .= Api.Types.id u, "device_token" .= deviceToken u ]
-  toJSON (Nothing) = object []
