@@ -12,3 +12,8 @@ safeHead :: [a] -> Maybe a
 safeHead as
   | null as = Nothing
   | otherwise = Just $ head as
+
+codeForCreation :: [a] -> Int
+codeForCreation as
+  | null as = 422
+  | otherwise = 201
