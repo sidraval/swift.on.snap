@@ -27,8 +27,15 @@ userRoutes = [("/", method POST createUser)]
 createUser :: Handler b UserService ()
 createUser = do
   deviceToken <- (getRequest >>= getDeviceToken)
-  newUser <- execute "INSERT INTO users (device_token) VALUES (?)" (Only deviceToken)
-  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only deviceToken)
+  maybe unauthorized authorized deviceToken
+
+unauthorized :: Handler b UserService ()
+unauthorized = modifyResponse $ setResponseCode 401
+
+authorized :: B.ByteString -> Handler b UserService ()
+authorized dt = do
+  newUser <- execute "INSERT INTO users (device_token) VALUES (?)" (Only dt)
+  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
   modifyResponse . setResponseCode $ codeForCreation userFromToken
   writeLBS $ userOrError (safeHead userFromToken :: Maybe User)
 
