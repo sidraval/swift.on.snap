@@ -3,10 +3,14 @@ module Api.Utils where
 
 import Data.ByteString.Char8 as B hiding (head, null)
 import Data.Maybe
+import Snap.Snaplet
 import Snap.Types
 
 getDeviceToken :: (MonadSnap m) => Request -> m (Maybe B.ByteString)
 getDeviceToken rq = return $ getHeader "device-token" rq
+
+unauthorized :: Handler b v ()
+unauthorized = modifyResponse $ setResponseCode 401
 
 safeHead :: [a] -> Maybe a
 safeHead as

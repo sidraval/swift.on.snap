@@ -22,18 +22,25 @@ data UserService = UserService { _pg :: Snaplet Postgres }
 makeLenses ''UserService
 
 userRoutes :: [(B.ByteString, Handler b UserService ())]
-userRoutes = [("/", method POST createUser)]
+userRoutes = [("/", method POST createIfAuthorized)]
 
-createUser :: Handler b UserService ()
-createUser = do
+createIfAuthorized :: Handler b UserService ()
+createIfAuthorized = do
   deviceToken <- (getRequest >>= getDeviceToken)
   maybe unauthorized authorized deviceToken
 
-unauthorized :: Handler b UserService ()
-unauthorized = modifyResponse $ setResponseCode 401
-
 authorized :: B.ByteString -> Handler b UserService ()
 authorized dt = do
+  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
+  maybe (createUser dt) respondWithUser (safeHead userFromToken :: Maybe User)
+
+respondWithUser :: User -> Handler b UserService ()
+respondWithUser u = do
+  modifyResponse . setResponseCode $ 200
+  writeLBS $ userOrError (Just u)
+
+createUser :: B.ByteString -> Handler b UserService ()
+createUser dt = do
   newUser <- execute "INSERT INTO users (device_token) VALUES (?)" (Only dt)
   userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
   modifyResponse . setResponseCode $ codeForCreation userFromToken
