@@ -9,7 +9,7 @@ import Api.Utils
 import Control.Applicative
 import Control.Lens.TH
 import Control.Monad.State.Class
-{- import Data.Aeson -}
+import Data.Aeson (encode)
 import Data.ByteString.Char8 as B hiding (head, null)
 import Data.ByteString.Lazy.Internal
 import Data.Maybe
@@ -25,26 +25,40 @@ data EventService = EventService { _pg :: Snaplet Postgres }
 makeLenses ''EventService
 
 eventRoutes :: [(B.ByteString, Handler b EventService ())]
-eventRoutes = [("/", method POST (withAuthorization >>= createEvent))]
+eventRoutes = [("/", method POST (withAuthorizedUser >>= createEvent))]
 
-createEvent :: Maybe B.ByteString -> Handler b EventService ()
-createEvent (Just dt) = do
-  (view, result) <- runForm "event" eventForm
+createEvent :: Maybe User -> Handler b EventService ()
+createEvent (Just u) = do
+  (view, result) <- runForm "event" (eventForm $ Api.Types.id u)
   case result of
-    Just x -> modifyResponse . setResponseCode $ 201
+    Just x -> validEvent x
     Nothing -> modifyResponse . setResponseCode $ 500
 createEvent _ = unauthorized
 
-eventForm :: (Monad m) => Form T.Text m Event
-eventForm = Event
-  <$> "eventId" .: stringRead "" Nothing
+validEvent :: Event -> Handler b EventService ()
+validEvent e = do
+  modifyResponse . setResponseCode $ 201
+  writeLBS . encode $ e
+
+eventForm :: (Monad m) => Int -> Form T.Text m Event
+eventForm userId = Event
+  <$> "eventId" .: pure 0
   <*> "eventEndedAt" .: stringRead "" Nothing
   <*> "eventName" .: check "Not Empty" isNotEmpty (text Nothing)
   <*> "eventStartedAt" .: stringRead "" Nothing
-  <*> "eventUserId" .: stringRead "" Nothing
+  <*> "eventUserId" .: pure userId
   <*> "eventAddress" .: check "Not Empty" isNotEmpty (text Nothing)
   <*> "eventLat" .: stringRead "" Nothing
   <*> "eventLon" .: stringRead "" Nothing
+
+withAuthorizedUser :: Handler b EventService (Maybe User)
+withAuthorizedUser = withAuthorization >>= findUser
+
+findUser :: Maybe B.ByteString -> Handler b EventService (Maybe User)
+findUser (Just dt) = do
+  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt) :: Handler b EventService [User]
+  return $ safeHead userFromToken
+findUser (Nothing) = return Nothing
 
 eventServiceInit :: SnapletInit b EventService
 eventServiceInit = makeSnaplet "eventService" "Events service" Nothing $ do
