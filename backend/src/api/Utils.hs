@@ -2,7 +2,8 @@
 module Api.Utils where
 
 import Data.ByteString.Char8 as B hiding (head, null)
-import Data.Maybe
+import Data.Maybe()
+import qualified Data.Text as T
 import Snap.Snaplet
 import Snap.Types
 
@@ -24,3 +25,6 @@ codeForCreation :: [a] -> Int
 codeForCreation as
   | null as = 422
   | otherwise = 201
+
+isNotEmpty :: T.Text -> Bool
+isNotEmpty = not . T.null
