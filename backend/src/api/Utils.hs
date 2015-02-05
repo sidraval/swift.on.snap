@@ -6,6 +6,9 @@ import Data.Maybe
 import Snap.Snaplet
 import Snap.Types
 
+withAuthorization :: (MonadSnap m) => m (Maybe B.ByteString)
+withAuthorization = getRequest >>= getDeviceToken
+
 getDeviceToken :: (MonadSnap m) => Request -> m (Maybe B.ByteString)
 getDeviceToken rq = return $ getHeader "device-token" rq
 

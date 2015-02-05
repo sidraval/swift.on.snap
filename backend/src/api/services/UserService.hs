@@ -22,12 +22,12 @@ data UserService = UserService { _pg :: Snaplet Postgres }
 makeLenses ''UserService
 
 userRoutes :: [(B.ByteString, Handler b UserService ())]
-userRoutes = [("/", method POST createIfAuthorized)]
+userRoutes = [("/", method POST (withAuthorization >>= create))]
 
-createIfAuthorized :: Handler b UserService ()
-createIfAuthorized = do
-  deviceToken <- (getRequest >>= getDeviceToken)
-  maybe unauthorized authorized deviceToken
+create :: Maybe B.ByteString -> Handler b UserService ()
+create (Just dt) = do
+  authorized dt
+create _ = unauthorized
 
 authorized :: B.ByteString -> Handler b UserService ()
 authorized dt = do
