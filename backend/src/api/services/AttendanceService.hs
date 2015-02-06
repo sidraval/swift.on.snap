@@ -11,8 +11,6 @@ import Control.Lens.TH
 import Control.Monad.State.Class
 import Data.Aeson (encode)
 import Data.ByteString.Char8 as B hiding (head, null)
-import Data.ByteString.Lazy.Internal
-import Data.Maybe
 import qualified Data.Text as T
 import Snap.Snaplet
 import Snap.Snaplet.PostgresqlSimple
@@ -69,6 +67,6 @@ findOrCreateUser (Nothing) = return Nothing
 
 createUser :: B.ByteString -> Handler b AttendanceService (Maybe User)
 createUser dt = do
-  newUser <- execute "INSERT INTO users (device_token) VALUES (?)" (Only dt)
+  execute "INSERT INTO users (device_token) VALUES (?)" (Only dt)
   userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
   return $ safeHead userFromToken

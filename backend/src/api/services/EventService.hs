@@ -11,8 +11,6 @@ import Control.Lens.TH
 import Control.Monad.State.Class
 import Data.Aeson (encode)
 import Data.ByteString.Char8 as B hiding (head, null)
-import Data.ByteString.Lazy.Internal
-import Data.Maybe
 import qualified Data.Text as T
 import Snap.Snaplet
 import Snap.Snaplet.PostgresqlSimple
