@@ -60,7 +60,7 @@ findOrCreateUser (Just dt) = do
   case (safeHead userFromToken) of
     Just u -> return $ Just u
     Nothing -> createUser dt
-findUser (Nothing) = return Nothing
+findOrCreateUser (Nothing) = return Nothing
 
 createUser :: B.ByteString -> Handler b EventService (Maybe User)
 createUser dt = do
