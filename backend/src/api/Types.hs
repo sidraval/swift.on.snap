@@ -16,10 +16,29 @@ data User = User
   }
 
 instance FromRow User where
-  fromRow = User <$> field <*> field
+  fromRow = User <$> field
+                 <*> field
 
 instance ToJSON User where
   toJSON (User id deviceToken) = object [ "id" .= id, "device_token" .= deviceToken ]
+
+-- Attendance
+data Attendance = Attendance
+  { attendanceId :: Int,
+  , attendanceEventId :: Int
+  , attendanceUserId :: Int
+  }
+
+instance FromRow Attendance where
+  fromRow = Attendance <$> field
+                       <*> field
+                       <*> field
+
+instance ToJSON Attendance where
+  toJSON (Attendance attendanceId attendanceEventId attendanceUserId) = object [ "id" .= attendanceId
+                                                                               , "event_id" .= attendanceEventId
+                                                                               , "user_id" .= attendanceUserId
+                                                                               ]
 
 -- Event
 
