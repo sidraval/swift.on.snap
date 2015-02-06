@@ -22,29 +22,10 @@ data UserService = UserService { _pg :: Snaplet Postgres }
 makeLenses ''UserService
 
 userRoutes :: [(B.ByteString, Handler b UserService ())]
-userRoutes = [("/", method POST (withAuthorization >>= create))]
+userRoutes = [("/", method POST (withAuthorizedUser >>= create))]
 
-create :: Maybe B.ByteString -> Handler b UserService ()
-create (Just dt) = do
-  authorized dt
-create _ = unauthorized
-
-authorized :: B.ByteString -> Handler b UserService ()
-authorized dt = do
-  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
-  maybe (createUser dt) respondWithUser (safeHead userFromToken :: Maybe User)
-
-respondWithUser :: User -> Handler b UserService ()
-respondWithUser u = do
-  modifyResponse . setResponseCode $ 200
-  writeLBS $ userOrError (Just u)
-
-createUser :: B.ByteString -> Handler b UserService ()
-createUser dt = do
-  newUser <- execute "INSERT INTO users (device_token) VALUES (?)" (Only dt)
-  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
-  modifyResponse . setResponseCode $ codeForCreation userFromToken
-  writeLBS $ userOrError (safeHead userFromToken :: Maybe User)
+create :: Maybe User -> Handler b UserService ()
+create u = writeLBS $ userOrError u
 
 userOrError :: Maybe User -> Data.ByteString.Lazy.Internal.ByteString
 userOrError user = maybe
@@ -59,3 +40,21 @@ userServiceInit = makeSnaplet "userService" "Users service" Nothing $ do
 
 instance HasPostgres (Handler b UserService) where
   getPostgresState = with pg get
+
+-- Auth
+withAuthorizedUser :: Handler b UserService (Maybe User)
+withAuthorizedUser = withAuthorization >>= findOrCreateUser
+
+findOrCreateUser :: Maybe B.ByteString -> Handler b UserService (Maybe User)
+findOrCreateUser (Just dt) = do
+  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt) :: Handler b UserService [User]
+  case (safeHead userFromToken) of
+    Just u -> return $ Just u
+    Nothing -> createUser dt
+findOrCreateUser (Nothing) = return Nothing
+
+createUser :: B.ByteString -> Handler b UserService (Maybe User)
+createUser dt = do
+  execute "INSERT INTO users (device_token) VALUES (?)" (Only dt)
+  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
+  return $ safeHead userFromToken
