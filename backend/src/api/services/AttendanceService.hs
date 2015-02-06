@@ -16,7 +16,7 @@ import Data.Maybe
 import qualified Data.Text as T
 import Snap.Snaplet
 import Snap.Snaplet.PostgresqlSimple
-import Snap.Types
+import Snap.Core
 import Text.Digestive
 import Text.Digestive.Snap hiding (method)
 

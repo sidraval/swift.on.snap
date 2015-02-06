@@ -5,7 +5,7 @@ import Data.ByteString.Char8 as B hiding (head, null)
 import Data.Maybe()
 import qualified Data.Text as T
 import Snap.Snaplet
-import Snap.Types
+import Snap.Core
 
 withAuthorization :: (MonadSnap m) => m (Maybe B.ByteString)
 withAuthorization = getRequest >>= getDeviceToken

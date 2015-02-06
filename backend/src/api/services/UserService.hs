@@ -15,7 +15,7 @@ import Data.ByteString.Lazy.Internal
 import Data.Maybe
 import Snap.Snaplet
 import Snap.Snaplet.PostgresqlSimple
-import Snap.Types
+import Snap.Core
 
 data UserService = UserService { _pg :: Snaplet Postgres }
 
