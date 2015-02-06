@@ -24,7 +24,7 @@ instance ToJSON User where
 
 -- Attendance
 data Attendance = Attendance
-  { attendanceId :: Int,
+  { attendanceId :: Int
   , attendanceEventId :: Int
   , attendanceUserId :: Int
   }
