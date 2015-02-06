@@ -52,13 +52,21 @@ eventForm userId = Event
   <*> "eventLon" .: stringRead "" Nothing
 
 withAuthorizedUser :: Handler b EventService (Maybe User)
-withAuthorizedUser = withAuthorization >>= findUser
+withAuthorizedUser = withAuthorization >>= findOrCreateUser
 
-findUser :: Maybe B.ByteString -> Handler b EventService (Maybe User)
-findUser (Just dt) = do
+findOrCreateUser :: Maybe B.ByteString -> Handler b EventService (Maybe User)
+findOrCreateUser (Just dt) = do
   userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt) :: Handler b EventService [User]
-  return $ safeHead userFromToken
+  case (safeHead userFromToken) of
+    Just u -> return $ Just u
+    Nothing -> createUser dt
 findUser (Nothing) = return Nothing
+
+createUser :: B.ByteString -> Handler b EventService (Maybe User)
+createUser dt = do
+  newUser <- execute "INSERT INTO users (device_token) VALUES (?)" (Only dt)
+  userFromToken <- query "SELECT * FROM users WHERE device_token = (?) LIMIT 1" (Only dt)
+  return $ safeHead userFromToken
 
 eventServiceInit :: SnapletInit b EventService
 eventServiceInit = makeSnaplet "eventService" "Events service" Nothing $ do
