@@ -35,15 +35,16 @@ createEvent _ = unauthorized
 
 validEvent :: Event -> Handler b EventService ()
 validEvent e = do
-  modifyResponse . setResponseCode $ 201
+  newEvent <- execute "INSERT INTO events (ended_at, name, started_at, user_id, address, lat, lon) VALUES (?, ?, ?, ?, ?, ?, ?)" (eventEndedAt e, eventName e, eventStartedAt e, eventUserId e, eventAddress e, eventLat e, eventLon e)
+  modifyResponse . setResponseCode $ 202
   writeLBS . encode $ e
 
 eventForm :: (Monad m) => Int -> Form T.Text m Event
 eventForm userId = Event
   <$> "eventId" .: pure 0
-  <*> "eventEndedAt" .: stringRead "" Nothing
+  <*> "eventEndedAt" .: check "Not Empty" isNotEmpty (text Nothing)
   <*> "eventName" .: check "Not Empty" isNotEmpty (text Nothing)
-  <*> "eventStartedAt" .: stringRead "" Nothing
+  <*> "eventStartedAt" .: check "Not Empty" isNotEmpty (text Nothing)
   <*> "eventUserId" .: pure userId
   <*> "eventAddress" .: check "Not Empty" isNotEmpty (text Nothing)
   <*> "eventLat" .: stringRead "" Nothing

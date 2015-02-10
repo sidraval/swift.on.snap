@@ -44,9 +44,9 @@ instance ToJSON Attendance where
 
 data Event = Event
   { eventId        :: Int
-  , eventEndedAt   :: Int
+  , eventEndedAt   :: T.Text
   , eventName      :: T.Text
-  , eventStartedAt :: Int
+  , eventStartedAt :: T.Text
   , eventUserId    :: Int
   , eventAddress   :: T.Text
   , eventLat       :: Float
