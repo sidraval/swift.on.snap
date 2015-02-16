@@ -2,3 +2,4 @@ platform :ios, '8.0'
 
 pod 'SSKeychain', '~> 1.2.2'
 pod 'SVProgressHUD'
+pod 'Alamofire', '~> 1.1'
