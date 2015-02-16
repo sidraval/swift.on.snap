@@ -25,10 +25,9 @@ class HUMUserSession {
         return userToken
     }
     
-    class func setUserID(userID: NSNumber?) {
+    class func setUserID(userID: String?) {
         if let userID = userID {
-            let IDString = String(format: "%@", userID)
-            SSKeychain.setPassword(IDString, forService: HUMService, account: HUMUserId)
+            SSKeychain.setPassword(userID, forService: HUMService, account: HUMUserId)
         } else {
             SSKeychain.deletePasswordForService(HUMService, account: HUMUserId)
         }

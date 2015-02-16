@@ -20,7 +20,7 @@ instance FromRow User where
                  <*> field
 
 instance ToJSON User where
-  toJSON (User id deviceToken) = object [ "id" .= id, "device_token" .= deviceToken ]
+  toJSON (User id deviceToken) = object [ "id" .= show id, "device_token" .= deviceToken ]
 
 -- Attendance
 data Attendance = Attendance

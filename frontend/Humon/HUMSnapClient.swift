@@ -19,14 +19,22 @@ class HUMSnapClient {
     }
     
     init () {
-        Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["device-token": NSUUID().UUIDString]
+        let headers = HUMUserSession.userIsLoggedIn() ? ["device-token": HUMUserSession.userToken()!] : ["device-token": NSUUID().UUIDString]
+        Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = headers
     }
     
     func createCurrentUser(completionBlock: (NSError) -> ()) {
-        Alamofire.request(.POST, "http://localhost:9000/api/users").responseJSON { (_, _, _, error) -> Void in
-            if let error = error {
-                completionBlock(error)
+        Alamofire.request(.POST, "http://localhost:9000/api/users").responseJSON { (_, _, JSON, error) -> Void in
+            if let parsedJSON = JSON as? Dictionary<String, String> {
+                HUMUserSession.setUserToken(parsedJSON["device_token"])
+                HUMUserSession.setUserID(parsedJSON["id"])
             }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if let error = error {
+                    completionBlock(error)
+                }
+            })
         }
     }
 }
