@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02EB304008E48ECEB26C6C9A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919B5B57414C7720694794E /* libPods.a */; };
 		1F01F7B51A9249E900B92F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F01F7B41A9249E900B92F9F /* AppDelegate.swift */; };
 		1F01F7B71A9249E900B92F9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F01F7B61A9249E900B92F9F /* ViewController.swift */; };
 		1F01F7BA1A9249E900B92F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F01F7B81A9249E900B92F9F /* Main.storyboard */; };
 		1F01F7BC1A9249E900B92F9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F01F7BB1A9249E900B92F9F /* Images.xcassets */; };
 		1F01F7BF1A9249E900B92F9F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F01F7BD1A9249E900B92F9F /* LaunchScreen.xib */; };
 		1F01F7CB1A9249E900B92F9F /* HumonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F01F7CA1A9249E900B92F9F /* HumonTests.swift */; };
+		1F47F0791A926B2A00E5EB4D /* HUMSnapClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F0781A926B2A00E5EB4D /* HUMSnapClient.swift */; };
+		1F47F07B1A9274C900E5EB4D /* HUMUserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F07A1A9274C900E5EB4D /* HUMUserSession.swift */; };
 		1F6982911A92544A006DA403 /* HUMMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6982901A92544A006DA403 /* HUMMapViewController.swift */; };
+		1F6982931A925CC1006DA403 /* HUMEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6982921A925CC1006DA403 /* HUMEventTableViewController.swift */; };
+		4ECB227B1A444EADE6190E65 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64E5CC1DD588A6A5351D33C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +42,11 @@
 		1F01F7C41A9249E900B92F9F /* HumonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F01F7C91A9249E900B92F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F01F7CA1A9249E900B92F9F /* HumonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumonTests.swift; sourceTree = "<group>"; };
+		1F47F0781A926B2A00E5EB4D /* HUMSnapClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMSnapClient.swift; sourceTree = "<group>"; };
+		1F47F07A1A9274C900E5EB4D /* HUMUserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMUserSession.swift; sourceTree = "<group>"; };
 		1F6982901A92544A006DA403 /* HUMMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMMapViewController.swift; sourceTree = "<group>"; };
-		5919B5B57414C7720694794E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F6982921A925CC1006DA403 /* HUMEventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMEventTableViewController.swift; sourceTree = "<group>"; };
+		A64E5CC1DD588A6A5351D33C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA02D8BE5813A912E3FD636C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D383454A1A393E1773E5E00D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -50,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02EB304008E48ECEB26C6C9A /* libPods.a in Frameworks */,
+				4ECB227B1A444EADE6190E65 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +100,9 @@
 				1F01F7BD1A9249E900B92F9F /* LaunchScreen.xib */,
 				1F01F7B21A9249E900B92F9F /* Supporting Files */,
 				1F6982901A92544A006DA403 /* HUMMapViewController.swift */,
+				1F6982921A925CC1006DA403 /* HUMEventTableViewController.swift */,
+				1F47F0781A926B2A00E5EB4D /* HUMSnapClient.swift */,
+				1F47F07A1A9274C900E5EB4D /* HUMUserSession.swift */,
 			);
 			path = Humon;
 			sourceTree = "<group>";
@@ -136,7 +145,7 @@
 		FBB7AD7879F9633DCE4FDE54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5919B5B57414C7720694794E /* libPods.a */,
+				A64E5CC1DD588A6A5351D33C /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -153,6 +162,7 @@
 				1F01F7AC1A9249E900B92F9F /* Frameworks */,
 				1F01F7AD1A9249E900B92F9F /* Resources */,
 				6F5C3B09A5E09C2A3D8DD3DD /* Copy Pods Resources */,
+				CE26FDC9163DA973A084273A /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -269,6 +279,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CE26FDC9163DA973A084273A /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -277,7 +302,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F01F7B71A9249E900B92F9F /* ViewController.swift in Sources */,
+				1F6982931A925CC1006DA403 /* HUMEventTableViewController.swift in Sources */,
+				1F47F0791A926B2A00E5EB4D /* HUMSnapClient.swift in Sources */,
 				1F01F7B51A9249E900B92F9F /* AppDelegate.swift in Sources */,
+				1F47F07B1A9274C900E5EB4D /* HUMUserSession.swift in Sources */,
 				1F6982911A92544A006DA403 /* HUMMapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +505,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "ROOT_URL='\"http://localhost:9000\"'";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

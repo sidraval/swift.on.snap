@@ -21,7 +21,15 @@ class HUMMapViewController: UIViewController, MKMapViewDelegate {
         self.mapView.delegate = self
         
         self.view.addSubview(self.mapView)
+        
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addButtonPressed")
+        self.navigationItem.leftBarButtonItem = button
         // Do any additional setup after loading the view.
+    }
+    
+    func addButtonPressed() {
+        let addEventTableViewController = HUMEventTableViewController()
+        self.navigationController?.pushViewController(addEventTableViewController, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
