@@ -1,0 +1,13 @@
+PODS:
+  - SSKeychain (1.2.2)
+  - SVProgressHUD (1.1.2)
+
+DEPENDENCIES:
+  - SSKeychain (~> 1.2.2)
+  - SVProgressHUD
+
+SPEC CHECKSUMS:
+  SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
+  SVProgressHUD: da7a49e789af645d9279ffbca62318945a832438
+
+COCOAPODS: 0.35.0
