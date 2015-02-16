@@ -14,3 +14,4 @@ $ cabal install -fdevelopment
 * Each service has its own `pg` snaplet embedded in it. Extract this.
 * `withAuthorizedUser` should have type signature `Handler b v (Maybe User)` for generality.
   * Can't add restriction `(HasPostgres (Handler b v))` unfortunately...?
+* Proper JSON parsing in Swift, rather than `Dictionary<String, String>`
