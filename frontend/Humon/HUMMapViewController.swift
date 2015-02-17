@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import SVProgressHUD
 
 class HUMMapViewController: UIViewController, MKMapViewDelegate {
     
@@ -25,6 +26,21 @@ class HUMMapViewController: UIViewController, MKMapViewDelegate {
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addButtonPressed")
         self.navigationItem.leftBarButtonItem = button
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if(!HUMUserSession.userIsLoggedIn()) {
+            SVProgressHUD.show()
+            HUMSnapClient.sharedClient.createCurrentUser({ (error) -> () in
+                if let error = error {
+                    SVProgressHUD.showErrorWithStatus("Authentication error")
+                } else {
+                    SVProgressHUD.dismiss()
+                }
+            })
+        }
     }
     
     func addButtonPressed() {
