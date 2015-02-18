@@ -4,6 +4,7 @@
 
 module Api.Services.EventService where
 
+import Api.Services.NearestEventService hiding (pg)
 import Api.Types
 import Api.Utils
 import Control.Applicative
@@ -18,7 +19,9 @@ import Snap.Core
 import Text.Digestive
 import Text.Digestive.Snap hiding (method)
 
-data EventService = EventService { _pg :: Snaplet Postgres }
+data EventService = EventService { _pg :: Snaplet Postgres 
+                                 , _nearestEventService :: Snaplet NearestEventService
+                                 }
 
 makeLenses ''EventService
 
@@ -70,8 +73,9 @@ createUser dt = do
 eventServiceInit :: SnapletInit b EventService
 eventServiceInit = makeSnaplet "eventService" "Events service" Nothing $ do
   pg <- nestSnaplet "pg" pg pgsInit
+  nes <- nestSnaplet "nearests" nearestEventService nearestEventServiceInit
   addRoutes eventRoutes
-  return $ EventService pg
+  return $ EventService pg nes
 
 instance HasPostgres (Handler b EventService) where
   getPostgresState = with pg get
