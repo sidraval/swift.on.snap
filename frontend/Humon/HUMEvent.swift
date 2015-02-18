@@ -10,7 +10,7 @@ class HUMEvent: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
     var userID: Int?
     var eventID: Int?
-    
+
     init(name: String, address: String, startDate: NSDate, endDate: NSDate, lat: CLLocationDegrees, lon: CLLocationDegrees) {
         self.name = name
         self.address = address
@@ -39,6 +39,23 @@ class HUMEvent: NSObject, MKAnnotation {
         }
         
         return .None
+    }
+
+    func properties() -> Dictionary<String, AnyObject> {
+        if let endDate = endDate {
+            if let startDate = startDate {
+                return [
+                    "event.eventEndedAt": NSDateFormatter.RFC3339DateFormatter().stringFromDate(endDate),
+                    "event.eventStartedAt": NSDateFormatter.RFC3339DateFormatter().stringFromDate(startDate),
+                    "event.eventName": name,
+                    "event.eventAddress": address,
+                    "event.eventLat": coordinate.latitude,
+                    "event.eventLon": coordinate.longitude
+                ]
+            }
+        }
+
+        return [:]
     }
     
     class func eventsWithJSON(JSON: [Dictionary<String, String>]) -> [HUMEvent] {
