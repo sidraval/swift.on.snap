@@ -25,7 +25,7 @@ class HUMUserSession {
         }
     }
     
-    class func setUserToken(userToken: NSString?) {
+    class func setUserToken(userToken: String?) {
         if let userToken = userToken {
             SSKeychain.setPassword(userToken, forService: HUMService, account: HUMUserToken)
         } else {

@@ -2,6 +2,8 @@ import Foundation
 import Alamofire
 
 class HUMSnapClient {
+    let baseURL = "http://localhost:9000/api/"
+
     class var sharedClient: HUMSnapClient {
         struct Static {
             static let instance: HUMSnapClient = HUMSnapClient()
@@ -16,7 +18,7 @@ class HUMSnapClient {
     }
     
     func createCurrentUser(completionBlock: (NSError?) -> ()) {
-        Alamofire.request(.POST, "http://localhost:9000/api/users").responseJSON { (_, _, JSON, error) -> Void in
+        Alamofire.request(.POST, baseURL + "users").responseJSON { (_, _, JSON, error) -> Void in
             if let parsedJSON = JSON as? Dictionary<String, String> {
                 HUMUserSession.setUserToken(parsedJSON["device_token"])
                 HUMUserSession.setUserID(parsedJSON["id"])
@@ -29,7 +31,7 @@ class HUMSnapClient {
     }
     
     func createEvent(event: HUMEvent, completionBlock: (String?, NSError?) -> ()) {
-        Alamofire.request(.POST, "http://localhost:9000/api/events", parameters: event.properties()).responseJSON
+        Alamofire.request(.POST, baseURL + "events", parameters: event.properties()).responseJSON
         { (request, response, JSON, error) -> Void in
             println(response)
             if let parsedJSON = JSON as? Dictionary<String, String> {

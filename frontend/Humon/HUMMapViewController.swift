@@ -17,7 +17,6 @@ class HUMMapViewController: UIViewController, MKMapViewDelegate {
         
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addButtonPressed")
         self.navigationItem.leftBarButtonItem = button
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -37,7 +36,14 @@ class HUMMapViewController: UIViewController, MKMapViewDelegate {
     
     func addButtonPressed() {
         let coordinate = self.mapView.centerCoordinate
-        let event = HUMEvent(name: "Name", address: "Address", startDate: NSDate(), endDate: NSDate(timeIntervalSinceNow: 100), lat: coordinate.latitude, lon: coordinate.longitude)
+
+        let event = HUMEvent( name: "Name"
+                            , address: "Address"
+                            , startDate: NSDate()
+                            , endDate: NSDate(timeIntervalSinceNow: 100)
+                            , lat: coordinate.latitude
+                            , lon: coordinate.longitude
+                            )
         
         let addEventTableViewController = HUMEventTableViewController.initWith(event, editable: true)
         self.navigationController?.pushViewController(addEventTableViewController, animated: true)
