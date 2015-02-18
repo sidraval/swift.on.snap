@@ -17,6 +17,7 @@
 		1F47F07B1A9274C900E5EB4D /* HUMUserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F07A1A9274C900E5EB4D /* HUMUserSession.swift */; };
 		1F47F07D1A93F23600E5EB4D /* HUMEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F07C1A93F23600E5EB4D /* HUMEvent.swift */; };
 		1F47F07F1A93F59400E5EB4D /* HUMDefaultDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F07E1A93F59400E5EB4D /* HUMDefaultDateFormatter.swift */; };
+		1F4C511F1A94F4A500A5F330 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4C511E1A94F4A500A5F330 /* Utils.swift */; };
 		1F6982911A92544A006DA403 /* HUMMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6982901A92544A006DA403 /* HUMMapViewController.swift */; };
 		1F6982931A925CC1006DA403 /* HUMEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6982921A925CC1006DA403 /* HUMEventTableViewController.swift */; };
 		4ECB227B1A444EADE6190E65 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64E5CC1DD588A6A5351D33C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -48,6 +49,7 @@
 		1F47F07A1A9274C900E5EB4D /* HUMUserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMUserSession.swift; sourceTree = "<group>"; };
 		1F47F07C1A93F23600E5EB4D /* HUMEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMEvent.swift; sourceTree = "<group>"; };
 		1F47F07E1A93F59400E5EB4D /* HUMDefaultDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMDefaultDateFormatter.swift; sourceTree = "<group>"; };
+		1F4C511E1A94F4A500A5F330 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1F6982901A92544A006DA403 /* HUMMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMMapViewController.swift; sourceTree = "<group>"; };
 		1F6982921A925CC1006DA403 /* HUMEventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUMEventTableViewController.swift; sourceTree = "<group>"; };
 		A64E5CC1DD588A6A5351D33C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 				1F47F07A1A9274C900E5EB4D /* HUMUserSession.swift */,
 				1F47F07C1A93F23600E5EB4D /* HUMEvent.swift */,
 				1F47F07E1A93F59400E5EB4D /* HUMDefaultDateFormatter.swift */,
+				1F4C511E1A94F4A500A5F330 /* Utils.swift */,
 			);
 			path = Humon;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 			files = (
 				1F01F7B71A9249E900B92F9F /* ViewController.swift in Sources */,
 				1F47F07F1A93F59400E5EB4D /* HUMDefaultDateFormatter.swift in Sources */,
+				1F4C511F1A94F4A500A5F330 /* Utils.swift in Sources */,
 				1F6982931A925CC1006DA403 /* HUMEventTableViewController.swift in Sources */,
 				1F47F0791A926B2A00E5EB4D /* HUMSnapClient.swift in Sources */,
 				1F47F07D1A93F23600E5EB4D /* HUMEvent.swift in Sources */,
