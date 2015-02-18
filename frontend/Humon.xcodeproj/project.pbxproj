@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1F01F7B51A9249E900B92F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F01F7B41A9249E900B92F9F /* AppDelegate.swift */; };
-		1F01F7B71A9249E900B92F9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F01F7B61A9249E900B92F9F /* ViewController.swift */; };
 		1F01F7BA1A9249E900B92F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F01F7B81A9249E900B92F9F /* Main.storyboard */; };
 		1F01F7BC1A9249E900B92F9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F01F7BB1A9249E900B92F9F /* Images.xcassets */; };
 		1F01F7BF1A9249E900B92F9F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F01F7BD1A9249E900B92F9F /* LaunchScreen.xib */; };
@@ -38,7 +37,6 @@
 		1F01F7AF1A9249E900B92F9F /* Humon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Humon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F01F7B31A9249E900B92F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F01F7B41A9249E900B92F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1F01F7B61A9249E900B92F9F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1F01F7B91A9249E900B92F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F01F7BB1A9249E900B92F9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1F01F7BE1A9249E900B92F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -100,7 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				1F01F7B41A9249E900B92F9F /* AppDelegate.swift */,
-				1F01F7B61A9249E900B92F9F /* ViewController.swift */,
 				1F01F7B81A9249E900B92F9F /* Main.storyboard */,
 				1F01F7BB1A9249E900B92F9F /* Images.xcassets */,
 				1F01F7BD1A9249E900B92F9F /* LaunchScreen.xib */,
@@ -310,7 +307,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F01F7B71A9249E900B92F9F /* ViewController.swift in Sources */,
 				1F47F07F1A93F59400E5EB4D /* HUMDefaultDateFormatter.swift in Sources */,
 				1F4C511F1A94F4A500A5F330 /* Utils.swift in Sources */,
 				1F6982931A925CC1006DA403 /* HUMEventTableViewController.swift in Sources */,

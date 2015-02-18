@@ -7,7 +7,8 @@ $ git clone https://www.github.com/sidraval/swift.on.snap.git
 $ cd swift.on.snap/backend
 $ cabal sandbox init
 $ cabal install snap
-$ cabal install -fdevelopment
+$ cabal install
+$ backend -p 9000
 ```
 
 ## To do
@@ -15,3 +16,5 @@ $ cabal install -fdevelopment
 * `withAuthorizedUser` should have type signature `Handler b v (Maybe User)` for generality.
   * Can't add restriction `(HasPostgres (Handler b v))` unfortunately...?
 * Proper JSON parsing in Swift, rather than `Dictionary<String, String>`
+* Snap should return proper JSON (i.e. not every value should be a string), so we don't have to cast in Swift.
+* Use preprocessor macros for URLs instead of hardcoding

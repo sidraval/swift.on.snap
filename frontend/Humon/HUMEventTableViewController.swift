@@ -1,11 +1,3 @@
-//
-//  HUMEventTableViewController.swift
-//  Humon
-//
-//  Created by Sid Raval on 2/16/15.
-//  Copyright (c) 2015 Sid Raval. All rights reserved.
-//
-
 import UIKit
 import SVProgressHUD
 
@@ -63,7 +55,7 @@ class HUMEventTableViewController: UITableViewController {
         if let event = self.event {
             HUMSnapClient.sharedClient.createEvent(event, completionBlock: { (eventID, error) -> () in
                 if let error = error {
-                    SVProgressHUD.showErrorWithStatus("Authentication error")
+                    SVProgressHUD.showErrorWithStatus("Couldn't build event!")
                 } else {
                     SVProgressHUD.dismiss()
                     self.navigationController?.popToRootViewControllerAnimated(true)
