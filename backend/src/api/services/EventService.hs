@@ -4,7 +4,7 @@
 
 module Api.Services.EventService where
 
-import Api.Services.NearestEventService hiding (pg)
+import Api.Services.NearestEventService
 import Api.Types
 import Api.Utils
 import Control.Applicative
