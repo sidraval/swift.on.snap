@@ -12,6 +12,7 @@ import Control.Monad.State.Class
 import Data.Aeson (encode)
 import Data.ByteString.Char8 as B hiding (head, null)
 import qualified Data.Text as T
+import Data.Maybe
 import Snap.Snaplet
 import Snap.Snaplet.PostgresqlSimple
 import Snap.Core
@@ -29,15 +30,31 @@ listEvents :: Maybe User -> Handler b NearestEventService ()
 listEvents (Just u) = do
   lat <- getParam "lat"
   lon <- getParam "lon"
-  events <- getNearestEvents lat lon
+  radius <- getParam "radius"
+  events <- getNearestEvents lat lon radius
   modifyResponse . setResponseCode $ 200
+  writeLBS . encode . fromJust $ events
 listEvents _ = unauthorized
 
-getNearestEvents :: Maybe B.ByteString -> Maybe B.ByteString -> Handler b NearestEventService (Maybe [Event])
-getNearestEvents (Just lat) (Just lon) = do
-  events <- query_ "SELECT * FROM events" :: Handler b NearestEventService [Event]
-  return $ Just []
-getNearestEvents _ _ = return $ Just []
+getNearestEvents :: Maybe B.ByteString -> Maybe B.ByteString -> Maybe B.ByteString -> Handler b NearestEventService (Maybe [EventWithDistance])
+getNearestEvents (Just lat) (Just lon) (Just rad) = do
+  events <- query_ eventsOrderedByDistance :: Handler b NearestEventService [EventWithDistance]
+  return $ Just events
+getNearestEvents _ _ _ = return $ Just []
+
+eventsOrderedByDistance :: Query
+eventsOrderedByDistance = "SELECT *, p.distance_unit\
+                                     \* DEGREES(ACOS(COS(RADIANS(p.latpoint)) \
+                                     \* COS(RADIANS(e.lat)) \
+                                     \* COS(RADIANS(p.longpoint) - RADIANS(e.lon)) \
+                                     \+ SIN(RADIANS(p.latpoint)) \
+                                     \* SIN(RADIANS(e.lat)))) AS distance_in_km \
+                                   \FROM events AS e \
+                                   \JOIN (SELECT 0.0 AS latpoint, 0.0 AS longpoint, \
+                                         \50.0 AS radius, 111.045 AS distance_unit) \
+                                         \AS p ON 1=1 \
+                                   \ORDER BY distance_in_km \
+                                   \LIMIT 15"
 
 withAuthorizedUser :: Handler b NearestEventService (Maybe User)
 withAuthorizedUser = withAuthorization >>= findOrCreateUser
@@ -59,6 +76,7 @@ createUser dt = do
 nearestEventServiceInit :: SnapletInit b NearestEventService
 nearestEventServiceInit = makeSnaplet "nearestEventService" "Nearest events service" Nothing $ do
   pg <- nestSnaplet "pg" pg pgsInit
+  addRoutes nearestEventRoutes
   return $ NearestEventService pg
 
 instance HasPostgres (Handler b NearestEventService) where

@@ -6,6 +6,7 @@ module Api.Types where
 import           Control.Applicative
 import qualified Data.Text as T
 import           Data.Aeson
+import           Data.Time
 import           Snap.Snaplet.PostgresqlSimple
 
 -- User
@@ -68,6 +69,47 @@ instance ToJSON Event where
                                                                            , "ended_at" .= endedAt
                                                                            , "name" .= name
                                                                            , "started_at" .= startedAt
+                                                                           , "user_id" .= userId
+                                                                           , "address" .= address
+                                                                           , "lat" .= lat
+                                                                           , "lon" .= lon
+                                                                           ]
+-- EventWithDistance
+
+data EventWithDistance = EventWithDistance
+  { eventWithDistanceId        :: Int
+  , eventWithDistanceEndedAt   :: LocalTime
+  , eventWithDistanceName      :: T.Text
+  , eventWithDistanceStartedAt :: LocalTime
+  , eventWithDistanceUserId    :: Int
+  , eventWithDistanceAddress   :: T.Text
+  , eventWithDistanceLat       :: Double
+  , eventWithDistanceLon       :: Double
+  , eventWithDistanceLatPoint  :: Rational
+  , eventWithDistanceLonPoint  :: Rational
+  , eventWithDistanceRadius    :: Rational
+  , eventWithDistanceUnit      :: Rational
+  , eventWithDistanceInKm      :: Rational
+  }
+
+instance FromRow EventWithDistance where
+  fromRow = EventWithDistance <$> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+                  <*> field
+
+instance ToJSON EventWithDistance where
+  toJSON (EventWithDistance id endedAt name startedAt userId address lat lon _ _ _ _ _) = object [ "id" .= id
+                                                                           , "name" .= name
                                                                            , "user_id" .= userId
                                                                            , "address" .= address
                                                                            , "lat" .= lat
