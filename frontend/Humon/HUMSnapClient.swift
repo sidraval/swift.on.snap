@@ -1,7 +1,8 @@
 import Foundation
 import Alamofire
+import MapKit
 
-class HUMSnapClient {
+class HUMSnapClient{
     let baseURL = "http://localhost:9000/api/"
 
     class var sharedClient: HUMSnapClient {
@@ -37,6 +38,30 @@ class HUMSnapClient {
             if let parsedJSON = JSON as? Dictionary<String, String> {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     completionBlock(parsedJSON["id"], error)
+                })
+            }
+        }
+    }
+
+    func fetchEventsIn(region: MKCoordinateRegion, completionBlock: ([HUMEvent], NSError?) -> ()) -> Alamofire.Request {
+        let parameters = [
+            "lat": region.center.latitude,
+            "lon": region.center.longitude,
+            "radius": region.span.latitudeDelta/2*111
+        ]
+
+        return Alamofire.request(.GET, baseURL + "events/nearests", parameters: parameters).responseJSON { (request, response, JSON, error) -> Void in
+            if let parsedJSON = JSON as? [Dictionary<String, String>] {
+                let possibleEvents = parsedJSON.map { (var eventJSON) -> HUMEvent? in
+                    return HUMEvent.initWithJSON(eventJSON)
+                }
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completionBlock(catOptionals(possibleEvents) as [HUMEvent], error)
+                })
+            } else {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completionBlock([], error)
                 })
             }
         }
