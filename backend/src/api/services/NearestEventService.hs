@@ -56,6 +56,12 @@ eventsOrderedByDistance = "SELECT *, p.distance_unit\
                                    \JOIN (SELECT (?) AS latpoint, (?) AS longpoint, \
                                          \(?) AS radius, 111.045 AS distance_unit) \
                                          \AS p ON 1=1 \
+                                   \WHERE e.lat \
+                                      \BETWEEN p.latpoint  - (p.radius / p.distance_unit) \
+                                          \AND p.latpoint  + (p.radius / p.distance_unit) \
+                                   \AND e.lon \
+                                      \BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) \
+                                          \AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) \
                                    \ORDER BY distance_in_km \
                                    \LIMIT 15"
 
