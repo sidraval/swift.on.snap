@@ -31,14 +31,17 @@ listEvents (Just u) = do
   lat <- getParam "lat"
   lon <- getParam "lon"
   radius <- getParam "radius"
-  events <- getNearestEvents lat lon radius
+  events <- getNearestEvents (toDouble lat) (toDouble lon) (toDouble radius)
   modifyResponse . setResponseCode $ 200
   writeLBS . encode . fromJust $ events
 listEvents _ = unauthorized
 
-getNearestEvents :: Maybe B.ByteString -> Maybe B.ByteString -> Maybe B.ByteString -> Handler b NearestEventService (Maybe [EventWithDistance])
+toDouble :: Maybe B.ByteString -> Maybe Double
+toDouble x = x >>= (\y -> return $ (read $ B.unpack y :: Double))
+
+getNearestEvents :: Maybe Double -> Maybe Double -> Maybe Double -> Handler b NearestEventService (Maybe [EventWithDistance])
 getNearestEvents (Just lat) (Just lon) (Just rad) = do
-  events <- query_ eventsOrderedByDistance :: Handler b NearestEventService [EventWithDistance]
+  events <- query eventsOrderedByDistance (lat, lon, rad) :: Handler b NearestEventService [EventWithDistance]
   return $ Just events
 getNearestEvents _ _ _ = return $ Just []
 
@@ -50,8 +53,8 @@ eventsOrderedByDistance = "SELECT *, p.distance_unit\
                                      \+ SIN(RADIANS(p.latpoint)) \
                                      \* SIN(RADIANS(e.lat)))) AS distance_in_km \
                                    \FROM events AS e \
-                                   \JOIN (SELECT 0.0 AS latpoint, 0.0 AS longpoint, \
-                                         \50.0 AS radius, 111.045 AS distance_unit) \
+                                   \JOIN (SELECT (?) AS latpoint, (?) AS longpoint, \
+                                         \(?) AS radius, 111.045 AS distance_unit) \
                                          \AS p ON 1=1 \
                                    \ORDER BY distance_in_km \
                                    \LIMIT 15"
